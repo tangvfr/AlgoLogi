@@ -1,24 +1,21 @@
 package fr.tangv.algologi.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Methode {
 
-	private List<Action> actions;
+	private Action action;
 	private String name;
 	private boolean main;
 	
 	public Methode(String name) {
 		this.name = name;
 		this.main = false;
-		actions = new ArrayList<Action>();
+		action = null;
 	}
 	
 	public Methode(String name, boolean main) {
 		this.name = name;
 		this.main = main;
-		actions = new ArrayList<Action>();
+		action = null;
 	}
 	
 	public boolean isMain() {
@@ -33,21 +30,17 @@ public class Methode {
 		this.name = name;
 	}
 	
-	public List<Action> getActions() {
-		return actions;
+	public Action getAction() {
+		return action;
 	}
 	
-	public void setActions(List<Action> actions) {
-		this.actions = actions;
+	public void setAction(Action action) {
+		this.action = action;
 	}
 	
 	public Methode clone(String newName) {
 		Methode methode =  new Methode(newName);
-		List<Action> actions = new ArrayList<Action>();
-		for (Action ac : this.actions) {
-			actions.add(ac.clone(null));
-		}
-		methode.setActions(actions);
+		methode.setAction(action.clone(null));
 		return methode;
 	}
 	

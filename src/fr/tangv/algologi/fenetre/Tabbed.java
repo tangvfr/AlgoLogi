@@ -1,11 +1,9 @@
 package fr.tangv.algologi.fenetre;
 
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 import javax.swing.JViewport;
 
-import fr.tangv.algologi.util.Action;
 import fr.tangv.algologi.util.Methode;
 
 public class Tabbed extends JScrollPane {
@@ -14,6 +12,7 @@ public class Tabbed extends JScrollPane {
 	private Methode methode;
 	private JViewport jView;
 	private PanelLogi panel;
+	private JTextPane text;
 	
 	public PanelLogi getPanel() {
 		return panel;
@@ -24,20 +23,30 @@ public class Tabbed extends JScrollPane {
 		this.panel = panel;
 		this.methode = methode;
 		//----------------------------
+		text = new JTextPane();
+		text.setEditable(true);
+		text.setAutoscrolls(true);
+		
+		//---------------------------
 		jView = new JViewport();
+		jView.setView(text);
+		//---------------------------
 		this.setViewport(jView);
 		this.setAutoscrolls(true);
 	}
 	
-	public void updateTabbed() {
-		JPanel fond = new JPanel();
-		BoxLayout layout = new BoxLayout(fond, 0);
-		fond.setLayout(layout);
-		for(Action ac : methode.getActions()) {
-			
-		}
-		jView.setView(fond);
+	public void setText(String text) {
+		this.text.setText(text);
 	}
 	
+	public String getText() {
+		return this.text.getText();
+	}
+	
+	public void updateTabbed() {
+		char[] code = text.getText().toCharArray();
+		System.out.println("-------------------------------");
+		System.out.println(code);
+	}
 	
 }

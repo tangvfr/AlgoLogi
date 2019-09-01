@@ -111,7 +111,7 @@ public class PanelLogi extends JPanel {
 	
 	public void createMethodeDefault() {
 		Methode methode = new Methode("Default", true);
-		methode.getActions().add(new Action("Started", ActionType.start, null));
+		methode.setAction(new Action("Started", ActionType.start, null));
 		Tabbed tab = new Tabbed(methode, this);
 		loadMethode(methode);
 		addListMethode(methode);
