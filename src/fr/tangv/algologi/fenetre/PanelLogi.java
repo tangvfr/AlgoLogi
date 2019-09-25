@@ -102,6 +102,7 @@ public class PanelLogi extends JPanel {
 	}
 	
 	public void deleteMethode(Methode methode) {
+		listMethodeText.remove(methode.getName());
 		listClass.remove(listClass.indexOf(getNameList(methode)));
 		int index = tabbedPane.indexOfTab(methode.getName());
 		if (index != -1)
@@ -218,7 +219,14 @@ public class PanelLogi extends JPanel {
 	}
 	
 	public void generated() {
-		
+		for (Methode methode : fen.getAlgo().getMethodes().values()) {
+			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
+			System.out.println("Methodes: "+methode.getName());
+			for (String s : code) {
+				String[] type = s.split(" ", 2);
+				System.out.println("Line: "+s+" Type"+type.length+": "+type[0]);
+			}
+		}
 	}
 	
 	public MenuBar getMenuBar() {

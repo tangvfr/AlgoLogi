@@ -1,0 +1,19 @@
+start
+end
+startfonction
+endfonction
+fonction name
+{
+if text\n
+oui
+	fonction pourOui
+non
+	fonction poutNon
+endif
+}
+action text/n
+{
+:point
+action l'action que tu veux
+goto point
+}
