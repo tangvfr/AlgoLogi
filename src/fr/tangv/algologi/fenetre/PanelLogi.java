@@ -1,6 +1,8 @@
 package fr.tangv.algologi.fenetre;
 
 import java.awt.BorderLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -22,11 +24,14 @@ public class PanelLogi extends JPanel {
 	private JSplitPane split1;
 	private JList<String> list;
 	private DefaultListModel<String> listClass;
+	private Map<String, String> listMethodeText;
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public PanelLogi(Fenetre fen) {
 		this.fen = fen;
 		this.setLayout(new BorderLayout());
+		//------------------------------
+		listMethodeText = new HashMap<String, String>();
 		//------------------------------
 		menuBar = new MenuBar(this);
 		fen.setJMenuBar(menuBar);
@@ -45,7 +50,10 @@ public class PanelLogi extends JPanel {
 		createMethodeDefault();
 		split1.add(tabbedPane);
 		//------------------------------
-		//((Tabbed) tabbedPane.getSelectedComponent()).updateTabbed();
+	}
+	
+	public Map<String, String> getListMethodeText() {
+		return listMethodeText;
 	}
 	
 	public String getNameList(Methode methode) {
@@ -77,6 +85,8 @@ public class PanelLogi extends JPanel {
 	}
 	
 	public void renameMethode(Methode methode, String name) {
+		String donnee = listMethodeText.get(methode.getName());
+		listMethodeText.remove(methode.getName());
 		listClass.setElementAt(getNameList(methode, name), listClass.indexOf(getNameList(methode)));
 		//------------------------------------
 		int index = tabbedPane.indexOfTab(methode.getName());
@@ -88,6 +98,7 @@ public class PanelLogi extends JPanel {
 		fen.getAlgo().getMethodes().remove(methode.getName());
 		methode.setName(name);
 		fen.getAlgo().getMethodes().put(name, methode);
+		listMethodeText.put(methode.getName(), donnee);
 	}
 	
 	public void deleteMethode(Methode methode) {
@@ -112,14 +123,22 @@ public class PanelLogi extends JPanel {
 	public void createMethodeDefault() {
 		Methode methode = new Methode("Default", true);
 		methode.setAction(new Action("Started", ActionType.start, null));
-		Tabbed tab = new Tabbed(methode, this);
+		new Tabbed(methode, this);
 		loadMethode(methode);
 		addListMethode(methode);
 		fen.getAlgo().getMethodes().put(methode.getName(), methode);
 	}
 	
 	public void hideMethode(String name) {
-		 tabbedPane.removeTabAt(tabbedPane.indexOfTab(name));
+		int index = tabbedPane.indexOfTab(name);
+		((Tabbed) tabbedPane.getComponentAt(index)).save();
+		tabbedPane.removeTabAt(index);
+	}
+	
+	public void save() {
+		for (int index = 0; index < tabbedPane.getTabCount(); index++) {
+			((Tabbed) tabbedPane.getComponentAt(index)).save();
+		}
 	}
 	
 	public void afficheMethode() {
@@ -196,6 +215,10 @@ public class PanelLogi extends JPanel {
 		} else {
 			JOptionPane.showMessageDialog(getFen(), "Nothing selected.", "Methode Rename", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	public void generated() {
+		
 	}
 	
 	public MenuBar getMenuBar() {

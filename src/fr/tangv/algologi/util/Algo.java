@@ -25,4 +25,8 @@ public class Algo {
 		return methodes;
 	}
 	
+	public void generatedImage() {
+		
+	}
+	
 }

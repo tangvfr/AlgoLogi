@@ -26,13 +26,22 @@ public class Tabbed extends JScrollPane {
 		text = new JTextPane();
 		text.setEditable(true);
 		text.setAutoscrolls(true);
-		
 		//---------------------------
 		jView = new JViewport();
 		jView.setView(text);
 		//---------------------------
+		if (panel.getListMethodeText().containsKey(methode.getName())) {
+			setText(panel.getListMethodeText().get(methode.getName()));
+		} else {
+			panel.getListMethodeText().put(methode.getName(), "");
+		}
 		this.setViewport(jView);
 		this.setAutoscrolls(true);
+	}
+	
+	
+	public void save() {
+		this.panel.getListMethodeText().replace(this.methode.getName(), getText());
 	}
 	
 	public void setText(String text) {

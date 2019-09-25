@@ -36,7 +36,6 @@ public class Action {
 	
 	public void setMethode(Methode methode) {
 		this.methode = methode;
-		//replace all utuil this
 	}
 	
 	public String getText() {
