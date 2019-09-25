@@ -43,10 +43,4 @@ public class Tabbed extends JScrollPane {
 		return this.text.getText();
 	}
 	
-	public void updateTabbed() {
-		char[] code = text.getText().toCharArray();
-		System.out.println("--------------------------------");
-		System.out.println(code);
-	}
-	
 }

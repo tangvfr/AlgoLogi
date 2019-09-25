@@ -45,7 +45,7 @@ public class PanelLogi extends JPanel {
 		createMethodeDefault();
 		split1.add(tabbedPane);
 		//------------------------------
-		((Tabbed) tabbedPane.getSelectedComponent()).updateTabbed();
+		//((Tabbed) tabbedPane.getSelectedComponent()).updateTabbed();
 	}
 	
 	public String getNameList(Methode methode) {
@@ -116,7 +116,6 @@ public class PanelLogi extends JPanel {
 		loadMethode(methode);
 		addListMethode(methode);
 		fen.getAlgo().getMethodes().put(methode.getName(), methode);
-		tab.updateTabbed();
 	}
 	
 	public void hideMethode(String name) {
