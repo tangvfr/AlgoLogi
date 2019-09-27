@@ -221,12 +221,49 @@ public class PanelLogi extends JPanel {
 	public void generated() {
 		for (Methode methode : fen.getAlgo().getMethodes().values()) {
 			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
-			System.out.println("Methodes: "+methode.getName());
 			for (String s : code) {
-				String[] type = s.split(" ", 2);
-				System.out.println("Line: "+s+" Type"+type.length+": "+type[0]);
+				String[] line = s.split(" ", 2);
+				Action acLast = null;
+				switch(line[0]) {
+					case "start":
+						if (acLast == null) {
+							acLast = new Action("", ActionType.start, null);
+						} else {
+							errorGenerated("Deja un start");
+						}
+						break;
+					case "end":
+						break;
+					case "startfonction":
+						if (acLast == null) {
+							acLast = new Action("", ActionType.start, null);
+						} else {
+							errorGenerated("Deja un start");
+						}
+						break;
+					case "endfonction":
+						break;
+					case "fonction"://name
+						break;
+					case "if": //text endif and tab
+						break;
+					case "action": //text
+						break;
+					case "goto": //nameP
+						break;
+					case ":": //nameP
+						break;
+					default:
+						//error not exist != endif
+						errorGenerated("error not exist");
+						break;
+				}
 			}
 		}
+	}
+	
+	public void errorGenerated(String reason) {
+		
 	}
 	
 	public MenuBar getMenuBar() {

@@ -13,7 +13,7 @@ endif
 }
 action text/n
 {
-:point
+: point
 action l'action que tu veux
 goto point
 }

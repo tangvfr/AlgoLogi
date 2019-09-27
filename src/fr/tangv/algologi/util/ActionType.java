@@ -9,7 +9,8 @@ public enum ActionType {
 	excuteFonction(false, false),
 	condiction(false, false),
 	action(false, false),
-	gotoline(false, false);
+	point(false, false),
+	gotopoint(false, false);
 	
 	private boolean isEnd;
 	private boolean isStart;
