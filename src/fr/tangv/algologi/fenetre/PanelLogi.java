@@ -229,32 +229,65 @@ public class PanelLogi extends JPanel {
 						if (acLast == null) {
 							acLast = new Action("", ActionType.start, null);
 						} else {
-							errorGenerated("Deja un start");
+							errorGenerated("already start");
 						}
 						break;
 					case "end":
+						if (acLast != null) {
+							acLast = new Action("", ActionType.end, acLast);
+						} else {
+							errorGenerated("no start");
+						}
 						break;
 					case "startfonction":
 						if (acLast == null) {
 							acLast = new Action("", ActionType.startFonction, null);
 						} else {
-							errorGenerated("Deja un start");
+							errorGenerated("already start");
 						}
 						break;
 					case "endfonction":
+						if (acLast != null) {
+							acLast = new Action("", ActionType.endFonction, acLast);
+						} else {
+							errorGenerated("no start");
+						}
 						break;
 					case "fonction"://name
+						if (acLast != null) {
+							acLast = new Action(line[1], ActionType.excuteFonction, acLast);
+						} else {
+							errorGenerated("no start");
+						}
 						break;
 					case "if": //text endif and tab
+						
 						break;
 					case "action": //text
+						if (acLast != null) {
+							acLast = new Action(line[1], ActionType.action, acLast);
+						} else {
+							errorGenerated("no start");
+						}
 						break;
 					case "goto": //nameP
+						if (acLast != null) {
+							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
+						} else {
+							errorGenerated("no start");
+						}
 						break;
 					case ":": //nameP
+						if (acLast != null) {
+							acLast = new Action(line[1], ActionType.point, acLast);
+						} else {
+							errorGenerated("no start");
+						}
+						break;
+					case "endif":
+						errorGenerated("not is in if");
 						break;
 					default:
-						//error not exist != endif
 						errorGenerated("not exist");
 						break;
 				}

@@ -10,7 +10,7 @@ public enum ActionType {
 	condiction(false, false),
 	action(false, false),
 	point(false, false),
-	gotopoint(false, false);
+	gotoPoint(false, false);
 	
 	private boolean isEnd;
 	private boolean isStart;
