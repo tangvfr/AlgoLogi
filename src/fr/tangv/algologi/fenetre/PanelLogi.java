@@ -236,7 +236,7 @@ public class PanelLogi extends JPanel {
 						break;
 					case "startfonction":
 						if (acLast == null) {
-							acLast = new Action("", ActionType.start, null);
+							acLast = new Action("", ActionType.startFonction, null);
 						} else {
 							errorGenerated("Deja un start");
 						}
@@ -255,7 +255,7 @@ public class PanelLogi extends JPanel {
 						break;
 					default:
 						//error not exist != endif
-						errorGenerated("error not exist");
+						errorGenerated("not exist");
 						break;
 				}
 			}
