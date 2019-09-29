@@ -263,7 +263,7 @@ public class PanelLogi extends JPanel {
 	}
 	
 	public void errorGenerated(String reason) {
-		
+		System.out.println("Error Genrated: "+reason);
 	}
 	
 	public MenuBar getMenuBar() {
