@@ -218,85 +218,93 @@ public class PanelLogi extends JPanel {
 		}
 	}
 	
+	private Action generatedAction(String[] code, Action prev) {
+		Action acLast = prev;
+		for (int index = 0; index < code.length; index++) {
+			String[] line = code[index].split(" ", 2);
+			switch(line[0]) {
+				case "start":
+					if (acLast == null) {
+						acLast = new Action("", ActionType.start, null);
+					} else {
+						errorGenerated("already start");
+					}
+					break;
+				case "end":
+					if (acLast != null) {
+						acLast = new Action("", ActionType.end, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case "startfonction":
+					if (acLast == null) {
+						acLast = new Action("", ActionType.startFonction, null);
+					} else {
+						errorGenerated("already start");
+					}
+					break;
+				case "endfonction":
+					if (acLast != null) {
+						acLast = new Action("", ActionType.endFonction, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case "fonction"://name
+					if (acLast != null) {
+						acLast = new Action(line[1], ActionType.excuteFonction, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case "if": //text endif and tab
+					acLast = new Action(line[1], ActionType.condiction, acLast);
+					
+					String[] getline = code[index].split(" ", 2);
+					//finir
+					
+					break;
+				case "action": //text
+					if (acLast != null) {
+						acLast = new Action(line[1], ActionType.action, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case "goto": //nameP
+					if (acLast != null) {
+						acLast = new Action(line[1], ActionType.gotoPoint, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case ":": //nameP
+					if (acLast != null) {
+						acLast = new Action(line[1], ActionType.point, acLast);
+					} else {
+						errorGenerated("no start");
+					}
+					break;
+				case "endif":
+					errorGenerated("not is in if");
+					break;
+				default:
+					errorGenerated("not exist");
+					break;
+			}
+		}
+		return acLast;
+	}
+	
 	public void generated() {
 		for (Methode methode : fen.getAlgo().getMethodes().values()) {
 			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
-			Action acLast = null;
-			for (String s : code) {
-				String[] line = s.split(" ", 2);
-				switch(line[0]) {
-					case "start":
-						if (acLast == null) {
-							acLast = new Action("", ActionType.start, null);
-						} else {
-							errorGenerated("already start");
-						}
-						break;
-					case "end":
-						if (acLast != null) {
-							acLast = new Action("", ActionType.end, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case "startfonction":
-						if (acLast == null) {
-							acLast = new Action("", ActionType.startFonction, null);
-						} else {
-							errorGenerated("already start");
-						}
-						break;
-					case "endfonction":
-						if (acLast != null) {
-							acLast = new Action("", ActionType.endFonction, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case "fonction"://name
-						if (acLast != null) {
-							acLast = new Action(line[1], ActionType.excuteFonction, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case "if": //text endif and tab
-						
-						break;
-					case "action": //text
-						if (acLast != null) {
-							acLast = new Action(line[1], ActionType.action, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case "goto": //nameP
-						if (acLast != null) {
-							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case ":": //nameP
-						if (acLast != null) {
-							acLast = new Action(line[1], ActionType.point, acLast);
-						} else {
-							errorGenerated("no start");
-						}
-						break;
-					case "endif":
-						errorGenerated("not is in if");
-						break;
-					default:
-						errorGenerated("not exist");
-						break;
-				}
-			}
-			methode.setAction(acLast);
+			methode.setAction(generatedAction(code, null));
 		}
 	}
 	
-	public void errorGenerated(String reason) {
+	private void errorGenerated(String reason) {
 		System.out.println("Error Genrated: "+reason);
 	}
 	
