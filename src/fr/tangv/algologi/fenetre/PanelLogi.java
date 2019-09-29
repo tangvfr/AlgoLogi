@@ -221,9 +221,9 @@ public class PanelLogi extends JPanel {
 	public void generated() {
 		for (Methode methode : fen.getAlgo().getMethodes().values()) {
 			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
+			Action acLast = null;
 			for (String s : code) {
 				String[] line = s.split(" ", 2);
-				Action acLast = null;
 				switch(line[0]) {
 					case "start":
 						if (acLast == null) {
@@ -259,6 +259,7 @@ public class PanelLogi extends JPanel {
 						break;
 				}
 			}
+			methode.setAction(acLast);
 		}
 	}
 	
