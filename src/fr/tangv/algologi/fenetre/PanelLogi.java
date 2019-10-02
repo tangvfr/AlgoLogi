@@ -253,7 +253,7 @@ public class PanelLogi extends JPanel {
 		}
 	}
 	
-	private Action generatedAction(String[] code, Action prev) {
+	private Action generatedAction(String[] code, Action prev, boolean main) {
 		String errorSys = "systaxe";
 		String errorNoStart = "no start";
 		Action acLast = prev;
@@ -261,35 +261,21 @@ public class PanelLogi extends JPanel {
 			String[] line = code[index].split(" ", 2);
 			switch(line[0]) {
 				case "start":
-					if (acLast == null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						acLast = new Action("", ActionType.start, null);
 					} else {
 						errorGenerated("already start");
 					}
 					break;
 				case "end":
-					if (acLast != null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						acLast = new Action("", ActionType.end, acLast);
 					} else {
 						errorGenerated(errorNoStart);
 					}
 					break;
-				case "startfunction":
-					if (acLast == null) {
-						acLast = new Action("", ActionType.startFunction, null);
-					} else {
-						errorGenerated("already start");
-					}
-					break;
-				case "endfunction":
-					if (acLast != null) {
-						acLast = new Action("", ActionType.endFunction, acLast);
-					} else {
-						errorGenerated(errorNoStart);
-					}
-					break;
 				case "function"://name
-					if (acLast != null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.excuteFunction, acLast);
 						} else {
@@ -300,7 +286,7 @@ public class PanelLogi extends JPanel {
 					}
 					break;
 				case "if": //text endif and tab
-					if (acLast != null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.condiction, acLast);
 							Map<String, Action> listNext = new HashMap<String, Action>();
@@ -336,7 +322,7 @@ public class PanelLogi extends JPanel {
 												codeExp[get] = code[start+get].replaceFirst("\t", "");
 												System.out.println(codeExp[get]);
 											}
-											Action action = generatedAction(codeExp, acLast);
+											Action action = generatedAction(codeExp, acLast, main);
 											listNext.put(name, action);
 										} else {
 											errorGenerated(errorSys);
@@ -354,7 +340,7 @@ public class PanelLogi extends JPanel {
 					}
 					break;
 				case "action": //text
-					if (acLast != null) {
+					if (acLast == null) {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.action, acLast);
 						} else {
@@ -365,7 +351,7 @@ public class PanelLogi extends JPanel {
 					}
 					break;
 				case "goto": //nameP
-					if (acLast != null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
 						} else {
@@ -376,7 +362,7 @@ public class PanelLogi extends JPanel {
 					}
 					break;
 				case ":": //nameP
-					if (acLast != null) {
+					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.point, acLast);
 						} else {
@@ -402,7 +388,7 @@ public class PanelLogi extends JPanel {
 	public void generated() {
 		for (Methode methode : fen.getAlgo().getMethodes().values()) {
 			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
-			methode.setAction(generatedAction(code, null));
+			methode.setAction(generatedAction(code, null, methode.isMain()));
 		}
 	}
 	
