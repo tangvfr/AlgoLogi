@@ -95,6 +95,8 @@ public class MenuBar extends JMenuBar {
 								JOptionPane.showMessageDialog(panel.getFen(), e1.getMessage(), "Open", JOptionPane.ERROR_MESSAGE);
 							}
 						}
+					} else {
+						JOptionPane.showMessageDialog(panel.getFen(), "No open file not with extention .algologi !", "Open", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
