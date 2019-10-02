@@ -6,19 +6,9 @@ import java.util.Map;
 public class Algo {
 
 	private Map<String, Methode> methodes;
-	private String name;
 	
-	public Algo(String name) {
-		this.name = name;
+	public Algo() {
 		methodes = new HashMap<String, Methode>();
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setText(String name) {
-		this.name = name;
 	}
 	
 	public Map<String, Methode> getMethodes() {

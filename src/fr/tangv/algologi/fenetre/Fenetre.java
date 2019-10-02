@@ -24,7 +24,7 @@ public class Fenetre extends JFrame {
 	
 	public Fenetre() {
 		super("AlgoLogi");
-		algo = new Algo("Default");
+		algo = new Algo();
 		this.setSize(720, 480);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,8 +38,10 @@ public class Fenetre extends JFrame {
 	}
 	
 	public void resetPanel() {
+		algo = new Algo();
 		panel = new PanelLogi(this);
 		this.setContentPane(panel);
+		this.setVisible(true);
 	}
 	
 	@Override
