@@ -6,7 +6,9 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -48,9 +50,18 @@ public class MenuBar extends JMenuBar {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panel.save();
-				//saving in file
-				JOptionPane.showMessageDialog(panel.getFen(), "Saving finish !", "Save", JOptionPane.INFORMATION_MESSAGE);
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileFilter(new FileFiltreAL());
+				int result = fileChooser.showOpenDialog(panel.getFen());
+				if (result == JFileChooser.APPROVE_OPTION) {
+					String path = fileChooser.getSelectedFile().getAbsolutePath();
+					if (!path.endsWith(".algologi")) path += ".algologi";
+					File file = new File(path);
+					System.out.println(path);
+					panel.saveInFile(file);
+					//saving in file
+					JOptionPane.showMessageDialog(panel.getFen(), "Saving finish !", "Save", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		menu.add(save);
@@ -59,6 +70,7 @@ public class MenuBar extends JMenuBar {
 		generated.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				panel.save();
 				panel.generated();
 				panel.getFen().getAlgo().generatedImage();
 				JOptionPane.showMessageDialog(panel.getFen(), "Generated finish !", "Generated", JOptionPane.INFORMATION_MESSAGE);

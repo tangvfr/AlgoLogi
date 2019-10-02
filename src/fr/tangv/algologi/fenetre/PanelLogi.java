@@ -1,6 +1,7 @@
 package fr.tangv.algologi.fenetre;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,6 +135,12 @@ public class PanelLogi extends JPanel {
 		int index = tabbedPane.indexOfTab(name);
 		((Tabbed) tabbedPane.getComponentAt(index)).save();
 		tabbedPane.removeTabAt(index);
+	}
+	
+	public void saveInFile(File file) {
+		for (int index = 0; index < tabbedPane.getTabCount(); index++) {
+			((Tabbed) tabbedPane.getComponentAt(index)).save();
+		}
 	}
 	
 	public void save() {
