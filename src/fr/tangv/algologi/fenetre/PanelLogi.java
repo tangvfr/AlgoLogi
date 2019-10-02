@@ -219,6 +219,8 @@ public class PanelLogi extends JPanel {
 	}
 	
 	private Action generatedAction(String[] code, Action prev) {
+		String errorSys = "systaxe";
+		String errorNoStart = "no start";
 		Action acLast = prev;
 		for (int index = 0; index < code.length; index++) {
 			String[] line = code[index].split(" ", 2);
@@ -234,60 +236,106 @@ public class PanelLogi extends JPanel {
 					if (acLast != null) {
 						acLast = new Action("", ActionType.end, acLast);
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
-				case "startfonction":
+				case "startfunction":
 					if (acLast == null) {
-						acLast = new Action("", ActionType.startFonction, null);
+						acLast = new Action("", ActionType.startFunction, null);
 					} else {
 						errorGenerated("already start");
 					}
 					break;
-				case "endfonction":
+				case "endfunction":
 					if (acLast != null) {
-						acLast = new Action("", ActionType.endFonction, acLast);
+						acLast = new Action("", ActionType.endFunction, acLast);
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
-				case "fonction"://name
+				case "function"://name
 					if (acLast != null) {
-						acLast = new Action(line[1], ActionType.excuteFonction, acLast);
+						if (line.length >= 2) {
+							acLast = new Action(line[1], ActionType.excuteFunction, acLast);
+						} else {
+							errorGenerated(errorSys);
+						}
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
 				case "if": //text endif and tab
-					acLast = new Action(line[1], ActionType.condiction, acLast);
-					
-					String[] getline = code[index].split(" ", 2);
-					//finir
-					
+					if (acLast != null) {
+						if (line.length >= 2) {
+							acLast = new Action(line[1], ActionType.condiction, acLast);
+							Map<String, Action> listNext = new HashMap<String, Action>();
+							
+							
+							if (index+1 < code.length) {
+								int start = index+1;
+								int end = index+1;
+								while (index < code.length) {
+									index++;
+									if (code[index].length() == 0 || code[index].charAt(0) != '\t') {
+										end = index;
+										index--;
+										break;
+									}
+								}
+								int size = end-start;
+								String[] codeExp = new String[size];
+								for (int get = 0; get < size; get++) {
+									codeExp[get] = code[start+get].replaceFirst("\t", "");
+									System.out.println("ifg: "+codeExp[get]);
+								}
+								//code extra
+							} else {
+								errorGenerated(errorSys);
+							}
+						} else {
+							errorGenerated(errorSys);
+						}
+					} else {
+						errorGenerated(errorNoStart);
+					}
 					break;
 				case "action": //text
 					if (acLast != null) {
-						acLast = new Action(line[1], ActionType.action, acLast);
+						if (line.length >= 2) {
+							acLast = new Action(line[1], ActionType.action, acLast);
+						} else {
+							errorGenerated(errorSys);
+						}
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
 				case "goto": //nameP
 					if (acLast != null) {
-						acLast = new Action(line[1], ActionType.gotoPoint, acLast);
+						if (line.length >= 2) {
+							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
+						} else {
+							errorGenerated(errorSys);
+						}
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
 				case ":": //nameP
 					if (acLast != null) {
-						acLast = new Action(line[1], ActionType.point, acLast);
+						if (line.length >= 2) {
+							acLast = new Action(line[1], ActionType.point, acLast);
+						} else {
+							errorGenerated(errorSys);
+						}
 					} else {
-						errorGenerated("no start");
+						errorGenerated(errorNoStart);
 					}
 					break;
 				case "endif":
 					errorGenerated("not is in if");
+					break;
+				case "":
 					break;
 				default:
 					errorGenerated("not exist");

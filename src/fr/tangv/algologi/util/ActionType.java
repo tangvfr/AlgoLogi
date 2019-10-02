@@ -4,9 +4,9 @@ public enum ActionType {
 
 	start(false, true),
 	end(true, false),
-	startFonction(false, true),
-	endFonction(true, false),
-	excuteFonction(false, false),
+	startFunction(false, true),
+	endFunction(true, false),
+	excuteFunction(false, false),
 	condiction(false, false),
 	action(false, false),
 	point(false, false),

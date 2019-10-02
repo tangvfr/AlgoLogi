@@ -1,14 +1,14 @@
 start
 end
-startfonction
-endfonction
-fonction name
+startfunction
+endfunction
+function name
 {
 if text\n
 oui
-	fonction pourOui
+	function pourOui
 non
-	fonction poutNon
+	function poutNon
 endif
 }
 action text/n
