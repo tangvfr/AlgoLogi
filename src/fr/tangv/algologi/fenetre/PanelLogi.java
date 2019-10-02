@@ -255,7 +255,7 @@ public class PanelLogi extends JPanel {
 					break;
 				case "function"://name
 					if (acLast != null) {
-						if (line.length >= 2) {
+						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.excuteFunction, acLast);
 						} else {
 							errorGenerated(errorSys);
@@ -266,29 +266,47 @@ public class PanelLogi extends JPanel {
 					break;
 				case "if": //text endif and tab
 					if (acLast != null) {
-						if (line.length >= 2) {
+						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.condiction, acLast);
 							Map<String, Action> listNext = new HashMap<String, Action>();
 							
-							
 							if (index+1 < code.length) {
-								int start = index+1;
-								int end = index+1;
 								while (index < code.length) {
 									index++;
-									if (code[index].length() == 0 || code[index].charAt(0) != '\t') {
-										end = index;
-										index--;
-										break;
+									if (code[index].length() != 0 && code[index].charAt(0) != '\t') {
+										if (code[index].equals("endif")) {
+											index++;
+											break;
+										}
+										//différente condition
+										String name = "";
+										//repalce solutino dirente
+										
+										if (listNext.containsKey(name)) {
+											errorGenerated("already condiction");
+										} else if (index+1 < code.length) {
+											int start = index+1;
+											int end = index+1;
+											while (index < code.length) {
+												index++;
+												if (code[index].length() != 0 && code[index].charAt(0) != '\t') {
+													end = index;
+													index--;
+													break;
+												}
+											}
+											int size = end-start;
+											String[] codeExp = new String[size];
+											for (int get = 0; get < size; get++) {
+												codeExp[get] = code[start+get].replaceFirst("\t", "");
+											}
+											Action action = generatedAction(codeExp, acLast);
+											listNext.put(name, action);
+										} else {
+											errorGenerated(errorSys);
+										}
 									}
 								}
-								int size = end-start;
-								String[] codeExp = new String[size];
-								for (int get = 0; get < size; get++) {
-									codeExp[get] = code[start+get].replaceFirst("\t", "");
-									System.out.println("ifg: "+codeExp[get]);
-								}
-								//code extra
 							} else {
 								errorGenerated(errorSys);
 							}
@@ -301,7 +319,7 @@ public class PanelLogi extends JPanel {
 					break;
 				case "action": //text
 					if (acLast != null) {
-						if (line.length >= 2) {
+						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.action, acLast);
 						} else {
 							errorGenerated(errorSys);
@@ -312,7 +330,7 @@ public class PanelLogi extends JPanel {
 					break;
 				case "goto": //nameP
 					if (acLast != null) {
-						if (line.length >= 2) {
+						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
 						} else {
 							errorGenerated(errorSys);
@@ -323,7 +341,7 @@ public class PanelLogi extends JPanel {
 					break;
 				case ":": //nameP
 					if (acLast != null) {
-						if (line.length >= 2) {
+						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.point, acLast);
 						} else {
 							errorGenerated(errorSys);
