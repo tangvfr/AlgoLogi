@@ -269,19 +269,18 @@ public class PanelLogi extends JPanel {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.condiction, acLast);
 							Map<String, Action> listNext = new HashMap<String, Action>();
-							
+							System.out.println("if: "+line[1]);
 							if (index+1 < code.length) {
 								while (index < code.length) {
 									index++;
 									if (code[index].length() != 0 && code[index].charAt(0) != '\t') {
 										if (code[index].equals("endif")) {
+											System.out.println("end: ");
 											index++;
 											break;
 										}
 										//différente condition
-										String name = "";
-										//repalce solutino dirente
-										
+										String name = code[index];
 										if (listNext.containsKey(name)) {
 											errorGenerated("already condiction");
 										} else if (index+1 < code.length) {
@@ -297,8 +296,10 @@ public class PanelLogi extends JPanel {
 											}
 											int size = end-start;
 											String[] codeExp = new String[size];
+											System.out.println("Name: "+name);
 											for (int get = 0; get < size; get++) {
 												codeExp[get] = code[start+get].replaceFirst("\t", "");
+												System.out.println(codeExp[get]);
 											}
 											Action action = generatedAction(codeExp, acLast);
 											listNext.put(name, action);

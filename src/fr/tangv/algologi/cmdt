@@ -1,12 +1,30 @@
 start
 action tg
 function ff
-if gg
-	sss yjjjj
-		hh
-	fa
-	sftg rthyk
-ddd
-action 
-
+if le test est bon
+yes
+	action l'actiion pour yes
+	action ok
+no
+	action action pour non
 endif
+action gg
+
+start
+action tg
+function ff
+if le test est bon
+
+yes1
+	action l'actiion pour yes1
+	if the test2
+	yes2
+		action l'actiion pour yes2
+		action ok2
+	no2
+		action action pour non2
+	endif
+no1
+	action action pour non
+endif
+action gg
