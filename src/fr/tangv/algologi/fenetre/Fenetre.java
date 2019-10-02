@@ -28,12 +28,17 @@ public class Fenetre extends JFrame {
 		this.setSize(720, 480);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panel = new PanelLogi(this);
 		try {
 			this.setIconImage(ImageIO.read(this.getClass().getResourceAsStream("log_algo_logi.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		panel = new PanelLogi(this);
+		this.setContentPane(panel);
+	}
+	
+	public void resetPanel() {
+		panel = new PanelLogi(this);
 		this.setContentPane(panel);
 	}
 	
