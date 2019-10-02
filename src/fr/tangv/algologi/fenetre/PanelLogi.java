@@ -3,6 +3,7 @@ package fr.tangv.algologi.fenetre;
 import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -50,6 +51,40 @@ public class PanelLogi extends JPanel {
 		createMethodeDefault();
 		split1.add(tabbedPane);
 		//------------------------------
+	}
+	
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public PanelLogi(Fenetre fen, Map<?,?>[] donnee) {
+		this.fen = fen;
+		this.setLayout(new BorderLayout());
+		//------------------------------
+		listMethodeText = (Map<String, String>) donnee[0];
+		//------------------------------
+		menuBar = new MenuBar(this);
+		fen.setJMenuBar(menuBar);
+		//------------------------------
+		split1 = new JSplitPane(1);
+		this.add(split1, BorderLayout.CENTER);
+		//------------------------------
+		listClass = new DefaultListModel();
+	    list = new JList(listClass);
+	    ListListener listenerList = new ListListener(list, this);
+	    list.addMouseListener(listenerList);
+	    list.addKeyListener(listenerList);
+		split1.add(list);
+		//------------------------------
+		tabbedPane = new JTabbedPane();
+		for(String name : (Set<String>) donnee[1].keySet()) {
+			addMethode(name, (boolean) donnee[1].get(name));
+		}
+		split1.add(tabbedPane);
+		//------------------------------
+	}
+	
+	private void addMethode(String name, boolean main) {
+		Methode methode = new Methode(name, main);
+		addListMethode(methode);
+		fen.getAlgo().getMethodes().put(methode.getName(), methode);
 	}
 	
 	public Map<String, String> getListMethodeText() {

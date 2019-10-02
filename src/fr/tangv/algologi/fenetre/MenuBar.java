@@ -89,8 +89,8 @@ public class MenuBar extends JMenuBar {
 						if (file.exists()) {
 							try {
 								Fenetre fen = panel.getFen();
-								Map<?,?>[] donee = fen.readInFile(file);
-								fen.resetPanel();
+								Map<?,?>[] donnee = fen.readInFile(file);
+								fen.resetPanel(donnee);
 							} catch (IOException e1) {
 								JOptionPane.showMessageDialog(panel.getFen(), e1.getMessage(), "Open", JOptionPane.ERROR_MESSAGE);
 							}

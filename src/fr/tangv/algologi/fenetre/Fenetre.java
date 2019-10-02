@@ -37,9 +37,12 @@ public class Fenetre extends JFrame {
 		this.setContentPane(panel);
 	}
 	
-	public void resetPanel() {
+	public void resetPanel(Map<?,?>[] donnee) {
 		algo = new Algo();
-		panel = new PanelLogi(this);
+		if (donnee.length == 0)
+			panel = new PanelLogi(this);
+		else
+			panel = new PanelLogi(this, donnee);
 		this.setContentPane(panel);
 		this.setVisible(true);
 	}
