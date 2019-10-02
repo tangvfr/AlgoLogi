@@ -40,7 +40,6 @@ public class Tabbed extends JScrollPane {
 		this.setAutoscrolls(true);
 	}
 	
-	
 	public void save() {
 		this.panel.getListMethodeText().replace(this.methode.getName(), getText());
 	}
