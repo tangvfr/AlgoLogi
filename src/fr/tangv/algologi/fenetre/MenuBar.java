@@ -45,9 +45,19 @@ public class MenuBar extends JMenuBar {
 		});
 		this.panel = panel;
 		//--------------------------------------
-		//--------------------------------------
 		menu = new JMenu("File");	
 		this.add(menu);
+		//--------------------------------------
+		JMenuItem newAlgo = new JMenuItem("New");
+		newAlgo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(panel.getFen(), "You are sure new Algologi ?", "New", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE)) {
+					panel.getFen().resetPanel(new Map<?,?>[] {});
+				}
+			}
+		});
+		menu.add(newAlgo);
 		//--------------------------------------
 		JMenuItem save = new JMenuItem("Save");
 		save.addActionListener(new ActionListener() {
