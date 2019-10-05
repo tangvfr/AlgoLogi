@@ -46,11 +46,11 @@ public class Algo {
 		for (String key : methodes.keySet()) {
 			Methode methode = methodes.get(key);
 			if (methode.isMain()) {
-				Image imgg = renderAction(methode.getAction());
-				int i = 0;
+				int i = 1;
 				Action ac = methode.getAction();
 				while (ac != null) {
-					g.drawImage(imgg, 0, 1000+(i*-30), null);ac.getPrev();
+					g.drawImage(ac.render(), 0, 1000+(i*-120), null);
+					System.out.println(i+": "+ac.getType().name());
 					ac = ac.getPrev();
 					i++;
 				}
