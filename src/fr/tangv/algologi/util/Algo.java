@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class Algo {
 
 	private Map<String, Methode> methodes;
@@ -20,11 +24,12 @@ public class Algo {
 	}
 	
 	public BufferedImage renderAction(Action action) {
+		if (action == null) return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 		Action ac = action;
 		while (ac.getPrev() != null) {
 			ac = ac.getPrev();
 		}
-		return action.render();
+		return ac.render();
 	}
 	
 	public Image generatedImage() {
@@ -38,11 +43,22 @@ public class Algo {
 		g.setColor(backGroundColor);
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		//generated
-		
 		for (String key : methodes.keySet()) {
 			Methode methode = methodes.get(key);
 			if (methode.isMain()) {
-				g.drawImage(renderAction(methode.getAction()), 0, 0, null);
+				Image imgg = renderAction(methode.getAction());
+				int i = 0;
+				Action ac = methode.getAction();
+				while (ac != null) {
+					g.drawImage(imgg, 0, 1000+(i*-30), null);ac.getPrev();
+					ac = ac.getPrev();
+					i++;
+				}
+				/*JFrame t = new JFrame();
+				t.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				t.getContentPane().add(new JLabel(new ImageIcon(imgg)));
+				t.pack();
+				t.setVisible(true);*/
 				break;
 			}
 		}

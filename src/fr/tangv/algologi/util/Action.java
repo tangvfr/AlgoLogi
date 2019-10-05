@@ -66,7 +66,7 @@ public class Action {
 	}
 	
 	public BufferedImage render() {
-		BufferedImage img = new BufferedImage(50, 30, BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage img = new BufferedImage(100, 60, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics g = img.getGraphics();
 		switch (type) {
 			case action:
@@ -74,19 +74,26 @@ public class Action {
 			case condiction:
 				break;
 			case end:
-				
+				System.out.println("render end");
+				g.setColor(Color.BLACK);
+				g.fillRect(49, 0, 2, 30);
+				g.setColor(Color.red);
+				g.fillOval(10, 10, 80, 40);
+				g.setColor(Color.BLACK);
+				g.drawOval(10, 10, 80, 40);
 				break;
 			case excuteFunction:
 				break;
 			case point:
 				break;
 			case start:
+				System.out.println("render start");
 				g.setColor(Color.BLACK);
-				g.fillRect(25, 15, 2, 15);
+				g.fillRect(49, 30, 2, 30);
 				g.setColor(Color.green);
-				g.fillOval(5, 5, 40, 20);
+				g.fillOval(10, 10, 80, 40);
 				g.setColor(Color.BLACK);
-				g.drawOval(5, 5, 40, 20);
+				g.drawOval(10, 10, 80, 40);
 				break;
 			case gotoPoint:
 				
