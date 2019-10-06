@@ -54,7 +54,7 @@ public class Algo {
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		//draw
 		int y = 0;
-		for (int i = 0; i < listImage.size(); i++) {
+		for (int i = listImage.size()-1; i >= 0; i--) {
 			Image imgDraw = listImage.get(i);
 			g.drawImage(imgDraw, 0, y, null);
 			y += imgDraw.getHeight(null);
