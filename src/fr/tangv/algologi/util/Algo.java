@@ -4,12 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class Algo {
 
@@ -23,36 +20,23 @@ public class Algo {
 		return methodes;
 	}
 	
-	public BufferedImage renderAction(Action action) {
-		if (action == null) return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
-		Action ac = action;
-		while (ac.getPrev() != null) {
-			ac = ac.getPrev();
-		}
-		return ac.render();
-	}
-	
 	public Image generatedImage() {
-		
 		//color
 		Color backGroundColor = Color.gray;
-		//image
-		BufferedImage img = new BufferedImage(1000, 1000, BufferedImage.TYPE_INT_ARGB);
-		Graphics g = img.getGraphics();
-		//cls
-		g.setColor(backGroundColor);
-		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 		//generated
+		ArrayList<Image> listImage = new ArrayList<Image>();
+		int width = 0;
+		int height = 0;
 		for (String key : methodes.keySet()) {
 			Methode methode = methodes.get(key);
 			if (methode.isMain()) {
-				int i = 1;
 				Action ac = methode.getAction();
 				while (ac != null) {
-					g.drawImage(ac.render(), 0, 1000+(i*-120), null);
-					System.out.println(i+": "+ac.getType().name());
+					Image img = ac.render();
+					listImage.add(img);
+					height += img.getHeight(null);
+					width =  img.getWidth(null)>width ? img.getWidth(null) : width;
 					ac = ac.getPrev();
-					i++;
 				}
 				/*JFrame t = new JFrame();
 				t.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,7 +46,19 @@ public class Algo {
 				break;
 			}
 		}
-		
+		//image
+		BufferedImage img = new BufferedImage(width<1?1:width, height<1?1:height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = img.getGraphics();
+		//cls
+		g.setColor(backGroundColor);
+		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+		//draw
+		int y = 0;
+		for (int i = 0; i < listImage.size(); i++) {
+			Image imgDraw = listImage.get(i);
+			g.drawImage(imgDraw, 0, y, null);
+			y += imgDraw.getHeight(null);
+		}
 		//return
 		return img;
 	}
