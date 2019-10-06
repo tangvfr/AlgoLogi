@@ -60,6 +60,7 @@ public class MenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Save");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -86,6 +87,7 @@ public class MenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Open");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
 				if (result == JFileChooser.APPROVE_OPTION) {
