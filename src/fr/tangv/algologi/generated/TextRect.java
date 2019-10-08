@@ -18,7 +18,15 @@ public class TextRect {
 				part += string.charAt(i);
 			} else {
 				for (int ind = 1; ind <= margeChar && part.length() >= ind; ind++) {
-					System.out.println(ind+","+part.charAt(part.length()-ind));
+					if (part.charAt(part.length()-ind) == ' ') {
+						part = part.substring(0,part.length()-ind);
+						i -= ind;
+						break;
+					}
+				}
+				if (string.charAt(i) != ' ') {
+					part = part.substring(0, part.length()-1)+'-';
+					i--;
 				}
 				list.add(part);
 				part = string.charAt(i) == ' ' ? "" : ""+string.charAt(i);
