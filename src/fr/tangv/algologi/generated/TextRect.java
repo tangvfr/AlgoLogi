@@ -28,7 +28,7 @@ public class TextRect {
 	public void render(Graphics g, int x, int y) {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i+": "+list.get(i));
-			g.drawString(list.get(i), x, y+(i+1)*heightLine);
+			g.drawString(list.get(i), x, y+i*heightLine+(i == 0 ? g.getFont().getSize() : 0));
 		}
 	}
 	
