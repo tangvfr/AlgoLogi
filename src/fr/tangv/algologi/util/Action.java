@@ -2,10 +2,13 @@ package fr.tangv.algologi.util;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.tangv.algologi.generated.TextRect;
 
 public class Action {
 
@@ -68,13 +71,13 @@ public class Action {
 	
 	public BufferedImage render() {
 		BufferedImage img = new BufferedImage(200, 120, BufferedImage.TYPE_4BYTE_ABGR);
+		//----------------------
 		Graphics g = img.getGraphics();
 		Font font = new Font("Courier", Font.PLAIN, 11);
 		g.setFont(font);
 		//var
 		String textWrite;
 		int widthDecal;
-		int heightDecal;
 		//var
 		switch (type) {
 			case action:
@@ -85,10 +88,8 @@ public class Action {
 				g.setColor(Color.BLACK);
 				g.drawRect(20, 20, 160, 80);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{10,20,10}, 3);
-				textWrite = text;
-				widthDecal = g.getFontMetrics().stringWidth(textWrite)/2;
-				heightDecal = g.getFontMetrics().getHeight()/2;
-				g.drawString(textWrite, 100-widthDecal, 60);
+				TextRect textRect = new TextRect(text, 156, 76, g.getFontMetrics(), 13);
+				textRect.render(g, 22, 22);
 				break;
 			case condiction:
 				break;
@@ -143,4 +144,5 @@ public class Action {
 		ac.setPrev(prev);
 		return ac;
 	}
+	
 }
