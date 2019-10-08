@@ -12,20 +12,23 @@ public class TextRect {
 	public TextRect(String string, int width, int height, FontMetrics m, int heightLine) {
 		this.heightLine = heightLine;
 		list = new ArrayList<String>();
+		String part = "";
 		for (int i = 0; i < string.length(); i++) {
-			String part = "";
 			if (m.stringWidth(part + string.charAt(i)) <= width) {
 				part += string.charAt(i);
 			} else {
 				list.add(part);
-				part = "";
+				part = ""+string.charAt(i);
 			}
 		}
+		if (!part.isEmpty())
+			list.add(part);
 	}
 	
 	public void render(Graphics g, int x, int y) {
 		for (int i = 0; i < list.size(); i++) {
-			g.drawString(list.get(i), x, y+(i*heightLine));
+			System.out.println(i+": "+list.get(i));
+			g.drawString(list.get(i), x, y+(i+1)*heightLine);
 		}
 	}
 	
