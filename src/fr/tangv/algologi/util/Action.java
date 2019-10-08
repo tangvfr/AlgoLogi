@@ -88,7 +88,7 @@ public class Action {
 				g.setColor(Color.BLACK);
 				g.drawRect(20, 20, 160, 80);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{10,20,10}, 3);
-				TextRect textRect = new TextRect(text, 156, 76, g.getFontMetrics(), 13);
+				TextRect textRect = new TextRect(text, 156, 76, g.getFontMetrics(), 13, 4);
 				textRect.render(g, 22, 22);
 				break;
 			case condiction:
