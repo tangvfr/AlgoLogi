@@ -3,19 +3,25 @@ package fr.tangv.algologi.fenetre;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.plaf.MenuBarUI;
 
@@ -64,6 +70,7 @@ public class MenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Save");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -90,6 +97,7 @@ public class MenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Open");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
 				if (result == JFileChooser.APPROVE_OPTION) {
@@ -118,9 +126,29 @@ public class MenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panel.save();
-				panel.generated();
-				panel.getFen().getAlgo().generatedImage();
-				JOptionPane.showMessageDialog(panel.getFen(), "Generated finish !", "Generated", JOptionPane.INFORMATION_MESSAGE);
+				if (panel.generated()) {
+					Image img = panel.getFen().getAlgo().generatedImage();
+					JDialog dialog = new JDialog(panel.getFen(), "Generated");
+					dialog.setSize(300, 200);
+					dialog.setResizable(true);
+					dialog.setLocationRelativeTo(panel.getFen());
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.getContentPane().add(new JScrollPane(new JLabel(new ImageIcon(img))));
+					dialog.setVisible(true);
+					panel.getFen().setEnabled(false);
+					dialog.addWindowListener(new WindowListener() {
+						@Override public void windowOpened(WindowEvent e) {}
+						@Override public void windowIconified(WindowEvent e) {}
+						@Override public void windowDeiconified(WindowEvent e) {} 
+						@Override public void windowDeactivated(WindowEvent e) {} 
+						@Override public void windowClosing(WindowEvent e) {
+							panel.getFen().setEnabled(true);
+							dialog.dispose();
+						}
+						@Override public void windowClosed(WindowEvent e) {}
+						@Override public void windowActivated(WindowEvent e) {}
+					});
+				}
 			}
 		});
 		menu.add(generated);

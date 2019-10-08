@@ -253,57 +253,56 @@ public class PanelLogi extends JPanel {
 		}
 	}
 	
-	private Action generatedAction(String[] code, Action prev, boolean main) {
+	private Action generatedAction(String[] code, Action prev, boolean main) throws Exception {
 		String errorSys = "systaxe";
 		String errorNoStart = "no start";
 		Action acLast = prev;
 		for (int index = 0; index < code.length; index++) {
+			if (error) return acLast;
 			String[] line = code[index].split(" ", 2);
 			switch(line[0]) {
 				case "start":
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast == null) { if (!main) errorGenerated("not main juste action and goto", code[index], index); else 
 						acLast = new Action("", ActionType.start, null);
 					} else {
-						errorGenerated("already start");
+						errorGenerated("already start", code[index], index);
 					}
 					break;
 				case "end":
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast != null) { if (!main) errorGenerated("not main juste action and goto", code[index], index); else 
 						acLast = new Action("", ActionType.end, acLast);
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case "function"://name
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast != null) { if (!main) errorGenerated("not main juste action and goto", code[index], index); else 
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.excuteFunction, acLast);
 						} else {
-							errorGenerated(errorSys);
+							errorGenerated(errorSys, code[index], index);
 						}
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case "if": //text endif and tab
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast != null) { if (!main) errorGenerated("not main juste action and goto", code[index], index); else 
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.condiction, acLast);
 							Map<String, Action> listNext = new HashMap<String, Action>();
-							System.out.println("if: "+line[1]);
 							if (index+1 < code.length) {
 								while (index < code.length) {
+									if (error) return acLast;
 									index++;
 									if (code[index].length() != 0 && code[index].charAt(0) != '\t') {
 										if (code[index].equals("endif")) {
-											System.out.println("end: ");
-											index++;
 											break;
 										}
 										//différente condition
 										String name = code[index];
 										if (listNext.containsKey(name)) {
-											errorGenerated("already condiction");
+											errorGenerated("already condiction", code[index], index);
 										} else if (index+1 < code.length) {
 											int start = index+1;
 											int end = index+1;
@@ -317,83 +316,88 @@ public class PanelLogi extends JPanel {
 											}
 											int size = end-start;
 											String[] codeExp = new String[size];
-											System.out.println("Name: "+name);
 											for (int get = 0; get < size; get++) {
 												codeExp[get] = code[start+get].replaceFirst("\t", "");
-												System.out.println(codeExp[get]);
 											}
 											Action action = generatedAction(codeExp, acLast, main);
 											listNext.put(name, action);
 										} else {
-											errorGenerated(errorSys);
+											errorGenerated(errorSys, code[index], index);
 										}
 									}
 								}
 							} else {
-								errorGenerated(errorSys);
+								errorGenerated(errorSys, code[index], index);
 							}
 						} else {
-							errorGenerated(errorSys);
+							errorGenerated(errorSys, code[index], index);
 						}
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case "action": //text
-					if (acLast == null) {
+					if (acLast != null) {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.action, acLast);
 						} else {
-							errorGenerated(errorSys);
+							errorGenerated(errorSys, code[index], index);
 						}
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case "goto": //nameP
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast != null) {
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.gotoPoint, acLast);
 						} else {
-							errorGenerated(errorSys);
+							errorGenerated(errorSys, code[index], index);
 						}
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case ":": //nameP
-					if (acLast == null) if (!main) errorGenerated("not main juste action"); else {
+					if (acLast != null) { if (!main) errorGenerated("not main juste action and goto", code[index], index); else 
 						if (line.length >= 2 && !line[1].isEmpty()) {
 							acLast = new Action(line[1], ActionType.point, acLast);
 						} else {
-							errorGenerated(errorSys);
+							errorGenerated(errorSys, code[index], index);
 						}
 					} else {
-						errorGenerated(errorNoStart);
+						errorGenerated(errorNoStart, code[index], index);
 					}
 					break;
 				case "endif":
-					errorGenerated("not is in if");
+					errorGenerated("not is in if", code[index], index);
 					break;
 				case "":
 					break;
 				default:
-					errorGenerated("not exist");
+					errorGenerated("not exist", code[index], index);
 					break;
 			}
 		}
 		return acLast;
 	}
 	
-	public void generated() {
-		for (Methode methode : fen.getAlgo().getMethodes().values()) {
-			String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
-			methode.setAction(generatedAction(code, null, methode.isMain()));
-		}
+	private boolean error;
+	
+	public boolean generated() {
+		error = false;
+		try {
+			for (Methode methode : fen.getAlgo().getMethodes().values()) {
+				String[] code = listMethodeText.get(methode.getName()).replace("\r", "").split("\n");
+				methode.setAction(generatedAction(code, null, methode.isMain()));
+			}
+		} catch (Exception e) {}
+		return !error;
 	}
 	
-	private void errorGenerated(String reason) {
-		System.out.println("Error Genrated: "+reason);
+	private void errorGenerated(String reason, String line, int number) {
+		error = true;
+		JOptionPane.showMessageDialog(getFen(), "Error Generated: "+reason+"\nLine"+(number+1)+">>>"+line, "Error Generated", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	public MenuBar getMenuBar() {
