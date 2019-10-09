@@ -1,5 +1,6 @@
 package fr.tangv.algologi.generated;
 
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -28,17 +29,21 @@ public class TextRect {
 					part = part.substring(0, part.length()-1)+'-';
 					i--;
 				}
-				list.add(part);
+				this.add(height, m.getFont(), part);
 				part = string.charAt(i) == ' ' ? "" : ""+string.charAt(i);
 			}
 		}
 		if (!part.isEmpty())
-			list.add(part);
+			this.add(height, m.getFont(), part);
+	}
+	
+	private void add(int height, Font font, String line) {
+		System.out.println((list.size()-1)*heightLine+font.getSize()/2+2);
+		list.add(line);
 	}
 	
 	public void render(Graphics g, int x, int y) {
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(i+": "+list.get(i));
 			g.drawString(list.get(i), x, y+i*heightLine+g.getFont().getSize()/2+2);
 		}
 	}
