@@ -29,7 +29,11 @@ public class TextRect {
 					part = part.substring(0, part.length()-1)+'-';
 					i--;
 				}
-				this.add(height, m.getFont(), part);
+				//add part
+				if (!this.add(height, m.getFont(), part)) {
+					part = "";
+					break;
+				}
 				part = string.charAt(i) == ' ' ? "" : ""+string.charAt(i);
 			}
 		}
@@ -37,9 +41,14 @@ public class TextRect {
 			this.add(height, m.getFont(), part);
 	}
 	
-	private void add(int height, Font font, String line) {
-		System.out.println((list.size()-1)*heightLine+font.getSize()/2+2);
-		list.add(line);
+	private boolean add(int height, Font font, String line) {
+		if (list.size()*heightLine+font.getSize()/2+2 <= height) {
+			list.add(line);
+			return true;
+		} else {
+			
+			return false;
+		}
 	}
 	
 	public void render(Graphics g, int x, int y) {

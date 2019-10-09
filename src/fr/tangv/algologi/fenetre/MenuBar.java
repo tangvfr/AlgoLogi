@@ -25,6 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.plaf.MenuBarUI;
 
+import fr.tangv.algologi.generated.GeneratedDefault;
+import fr.tangv.algologi.util.Algo;
+import fr.tangv.algologi.util.AlgoGenrated;
+
 public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = 356983545601399371L;
 	private PanelLogi panel;
@@ -127,7 +131,8 @@ public class MenuBar extends JMenuBar {
 			public void actionPerformed(ActionEvent e) {
 				panel.save();
 				if (panel.generated()) {
-					Image img = panel.getFen().getAlgo().generatedImage();
+					AlgoGenrated generated = new GeneratedDefault();
+					Image img = generated.generatedImage(panel.getFen().getAlgo());
 					JDialog dialog = new JDialog(panel.getFen(), "Generated");
 					dialog.setSize(300, 200);
 					dialog.setResizable(true);
