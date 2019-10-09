@@ -16,8 +16,7 @@ public class RenderAction {
 		Font font = new Font("Courier", Font.PLAIN, 11);
 		g.setFont(font);
 		//var
-		String textWrite;
-		int widthDecal;
+		TextRect textRect;
 		//var
 		switch (action.getType()) {
 			case action:
@@ -28,7 +27,7 @@ public class RenderAction {
 				g.setColor(Color.BLACK);
 				g.drawRect(20, 20, 160, 80);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{10,20,10}, 3);
-				TextRect textRect = new TextRect(action.getText(), 156, 76, g.getFontMetrics(), 13, 4);
+				textRect = new TextRect(action.getText(), 156, 76, g.getFontMetrics(), 13, 4);
 				textRect.render(g, 22, 22);
 				break;
 			case condiction:
@@ -41,9 +40,8 @@ public class RenderAction {
 				g.setColor(Color.BLACK);
 				g.drawOval(20, 20, 160, 80);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{10,20,10}, 3);
-				textWrite = "End";
-				widthDecal = g.getFontMetrics().stringWidth(textWrite)/2;
-				g.drawString(textWrite, 100-widthDecal, 60);
+				textRect = new TextRect("End", 156, 76, g.getFontMetrics(), 13, 4);
+				textRect.render(g, 22, 22);
 				break;
 			case excuteFunction:
 				break;
@@ -59,9 +57,8 @@ public class RenderAction {
 				g.fillOval(20, 20, 160, 80);
 				g.setColor(Color.BLACK);
 				g.drawOval(20, 20, 160, 80);
-				textWrite = "Start";
-				widthDecal = g.getFontMetrics().stringWidth(textWrite)/2;
-				g.drawString(textWrite, 100-widthDecal, 60);
+				textRect = new TextRect("Start", 156, 76, g.getFontMetrics(), 13, 4);
+				textRect.render(g, 22, 22);
 				break;
 			case gotoPoint:
 				

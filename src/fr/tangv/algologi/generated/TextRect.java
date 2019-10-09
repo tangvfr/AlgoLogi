@@ -8,10 +8,12 @@ import java.util.ArrayList;
 public class TextRect {
 
 	private ArrayList<String> list;
-	private int heightLine;
+	private int heightLine, height, heightMax, width;
 	
 	public TextRect(String string, int width, int height, FontMetrics m, int heightLine, int margeChar) {
 		this.heightLine = heightLine;
+		this.height = height;
+		this.width = width;
 		list = new ArrayList<String>();
 		String part = "";
 		for (int i = 0; i < string.length(); i++) {
@@ -39,21 +41,26 @@ public class TextRect {
 		}
 		if (!part.isEmpty())
 			this.add(height, m.getFont(), part);
+		heightMax = list.size()*heightLine;
 	}
 	
 	private boolean add(int height, Font font, String line) {
-		if (list.size()*heightLine+font.getSize()/2+2 <= height) {
+		if (list.size()*heightLine <= height) {
 			list.add(line);
 			return true;
 		} else {
-			
+			int index = list.size()-1;
+			String text = list.get(index);
+			list.set(index, text.length()<3 ? text+="..." : text.substring(0, text.length()-3)+"...");
 			return false;
 		}
 	}
 	
 	public void render(Graphics g, int x, int y) {
+		int yModif = y+(height-heightMax)/2+g.getFont().getSize();
 		for (int i = 0; i < list.size(); i++) {
-			g.drawString(list.get(i), x, y+i*heightLine+g.getFont().getSize()/2+2);
+			int xModif = x+(width-g.getFontMetrics().stringWidth(list.get(i)))/2;
+			g.drawString(list.get(i), xModif, yModif+i*heightLine);
 		}
 	}
 	
