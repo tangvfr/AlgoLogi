@@ -37,7 +37,7 @@ public class GeneratedDefault implements AlgoGenrated {
 					listImage.add(img);
 					height += img.getHeight(null);
 					width =  img.getWidth(null)>width ? img.getWidth(null) : width;
-					//point
+					//point faire les calc coordoner
 					if (ac.getType() == ActionType.point) {
 						if (!mapPoint.containsKey(ac.getText()))
 							mapPoint.put(ac.getText(), new Point(0,0));
