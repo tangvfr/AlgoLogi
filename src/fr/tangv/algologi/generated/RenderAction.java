@@ -36,7 +36,13 @@ public class RenderAction {
 				g.setColor(Color.BLACK);
 				g.drawPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{0,10,0}, 3);
-				
+				if (action.getNext().size() >= 1) {
+					g.fillRect(190, 59, 20, 2);
+				} else if (action.getNext().size() >= 2) {
+					g.fillRect(99, 110, 2, 10);
+				} else if (action.getNext().size() >= 3) {
+					g.fillRect(0, 59, 20, 2);
+				}
 				textRect = new TextRect(action.getText(), 156, 76, g.getFontMetrics(), 13, 4);
 				textRect.render(g, 22, 22);
 				break;

@@ -329,6 +329,7 @@ public class PanelLogi extends JPanel {
 							} else {
 								errorGenerated(errorSys, code[index], index);
 							}
+							acLast.setNext(listNext);
 						} else {
 							errorGenerated(errorSys, code[index], index);
 						}
