@@ -31,6 +31,15 @@ public class RenderAction {
 				textRect.render(g, 22, 22);
 				break;
 			case condiction:
+				g.setColor(Color.yellow);
+				g.fillPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
+				g.setColor(Color.BLACK);
+				g.drawPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
+				//arrow
+				g.fillPolygon(new int[]{90,100,110}, new int[]{0,10,0}, 3);
+				//text
+				textRect = new TextRect(action.getText(), 156, 76, g.getFontMetrics(), 13, 4);
+				textRect.render(g, 22, 22);
 				break;
 			case end:
 				g.setColor(Color.BLACK);
@@ -61,9 +70,17 @@ public class RenderAction {
 				textRect.render(g, 22, 22);
 				break;
 			case gotoPoint:
-				
+				g.setColor(Color.BLACK);
+				g.fillRect(99, 0, 2, 60);
+				g.fillRect(97, 58, 6, 6);
 				break;
 			default:
+				g.setColor(Color.orange);
+				g.fillOval(20, 20, 160, 80);
+				g.setColor(Color.BLACK);
+				g.drawOval(20, 20, 160, 80);
+				textRect = new TextRect("Error !", 156, 76, g.getFontMetrics(), 13, 4);
+				textRect.render(g, 22, 22);
 				break;
 		}
 		g.setColor(Color.black);

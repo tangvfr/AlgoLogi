@@ -26,13 +26,14 @@ import javax.swing.border.Border;
 import javax.swing.plaf.MenuBarUI;
 
 import fr.tangv.algologi.generated.GeneratedDefault;
-import fr.tangv.algologi.util.Algo;
 import fr.tangv.algologi.util.AlgoGenrated;
 
 public class MenuBar extends JMenuBar {
 	private static final long serialVersionUID = 356983545601399371L;
 	private PanelLogi panel;
 	private JMenu menu;
+	
+	private static String lastFile;
 	
 	public MenuBar(PanelLogi panel) {
 		this.setUI(new MenuBarUI() {});
@@ -73,7 +74,7 @@ public class MenuBar extends JMenuBar {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(lastFile);
 				fileChooser.setDialogTitle("Save");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
@@ -86,6 +87,7 @@ public class MenuBar extends JMenuBar {
 							if (!file.exists()) file.createNewFile();
 							panel.save();
 							panel.getFen().saveInFile(file);
+							lastFile = path;
 							JOptionPane.showMessageDialog(panel.getFen(), "Saving finish !", "Save", JOptionPane.INFORMATION_MESSAGE);
 						} catch (IOException e1) {
 							JOptionPane.showMessageDialog(panel.getFen(), e1.getMessage(), "Save", JOptionPane.ERROR_MESSAGE);
@@ -100,7 +102,7 @@ public class MenuBar extends JMenuBar {
 		open.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
+				JFileChooser fileChooser = new JFileChooser(lastFile);
 				fileChooser.setDialogTitle("Open");
 				fileChooser.setFileFilter(new FileFiltreAL());
 				int result = fileChooser.showOpenDialog(panel.getFen());
@@ -113,6 +115,7 @@ public class MenuBar extends JMenuBar {
 								Fenetre fen = panel.getFen();
 								Map<?,?>[] donnee = fen.readInFile(file);
 								fen.resetPanel(donnee);
+								lastFile = path;
 							} catch (IOException e1) {
 								JOptionPane.showMessageDialog(panel.getFen(), e1.getMessage(), "Open", JOptionPane.ERROR_MESSAGE);
 							}

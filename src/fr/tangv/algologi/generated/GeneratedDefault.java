@@ -3,10 +3,14 @@ package fr.tangv.algologi.generated;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.tangv.algologi.util.Action;
+import fr.tangv.algologi.util.ActionType;
 import fr.tangv.algologi.util.Algo;
 import fr.tangv.algologi.util.AlgoGenrated;
 import fr.tangv.algologi.util.Methode;
@@ -20,6 +24,8 @@ public class GeneratedDefault implements AlgoGenrated {
 		//generated
 		RenderAction rednerAction = new RenderAction();
 		ArrayList<Image> listImage = new ArrayList<Image>();
+		Map<String, Point> mapPoint = new HashMap<String, Point>();
+		ArrayList<Goto> listGoto = new ArrayList<Goto>();
 		int width = 0;
 		int height = 0;
 		for (String key : algo.getMethodes().keySet()) {
@@ -31,6 +37,14 @@ public class GeneratedDefault implements AlgoGenrated {
 					listImage.add(img);
 					height += img.getHeight(null);
 					width =  img.getWidth(null)>width ? img.getWidth(null) : width;
+					//point
+					if (ac.getType() == ActionType.point) {
+						if (!mapPoint.containsKey(ac.getText()))
+							mapPoint.put(ac.getText(), new Point(0,0));
+					} else if (ac.getType() == ActionType.gotoPoint) {
+						listGoto.add(new Goto(0, 0, ac.getText()));
+					}
+					//ac remplace prev
 					ac = ac.getPrev();
 				}
 				break;
