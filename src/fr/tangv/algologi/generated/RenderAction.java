@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import fr.tangv.algologi.util.Action;
+import fr.tangv.algologi.util.ActionType;
 
 public class RenderAction {
 
@@ -60,7 +61,11 @@ public class RenderAction {
 				break;
 			case point:
 				g.setColor(Color.BLACK);
-				g.fillRect(99, 0, 2, 120);
+				if (action.getPrev().getType() == ActionType.condiction
+					|| action.getPrev().getType() == ActionType.gotoPoint)
+					g.fillRect(99, 60, 2, 60);
+				else
+					g.fillRect(99, 0, 2, 120);
 				g.fillOval(95, 55, 9, 9);
 				break;
 			case start:
