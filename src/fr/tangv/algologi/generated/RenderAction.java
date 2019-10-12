@@ -35,9 +35,8 @@ public class RenderAction {
 				g.fillPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
 				g.setColor(Color.BLACK);
 				g.drawPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
-				//arrow
 				g.fillPolygon(new int[]{90,100,110}, new int[]{0,10,0}, 3);
-				//text
+				
 				textRect = new TextRect(action.getText(), 156, 76, g.getFontMetrics(), 13, 4);
 				textRect.render(g, 22, 22);
 				break;
