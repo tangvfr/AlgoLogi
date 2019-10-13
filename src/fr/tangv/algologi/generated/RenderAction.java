@@ -11,7 +11,11 @@ import fr.tangv.algologi.util.ActionType;
 public class RenderAction {
 
 	public BufferedImage render(Action action) {
-		BufferedImage img = new BufferedImage(200, 120, BufferedImage.TYPE_4BYTE_ABGR);
+		BufferedImage img;
+		if (action.getType() == ActionType.condiction && action.getNext().size() >= 2) 
+			img = new BufferedImage(400, 120, BufferedImage.TYPE_4BYTE_ABGR);
+		else
+			img = new BufferedImage(200, 120, BufferedImage.TYPE_4BYTE_ABGR);
 		//----------------------
 		Graphics g = img.getGraphics();
 		Font font = new Font("Courier", Font.PLAIN, 11);
@@ -37,12 +41,15 @@ public class RenderAction {
 				g.setColor(Color.BLACK);
 				g.drawPolygon(new int[]{10, 100, 190, 100}, new int[]{60, 10, 60, 110}, 4);
 				g.fillPolygon(new int[]{90,100,110}, new int[]{0,10,0}, 3);
-				if (action.getNext().size() >= 1)
-					g.fillRect(190, 59, 20, 2);
-				if (action.getNext().size() >= 2)
+				if (action.getNext().size() >= 1) {
 					g.fillRect(99, 110, 2, 10);
-				if (action.getNext().size() >= 3)
-					g.fillRect(0, 59, 10, 2);
+					g.drawString((String) action.getNext().keySet().toArray()[0], 106, 115);
+				}
+				if (action.getNext().size() >= 2) {
+					g.fillRect(190, 59, 109, 2);
+					g.fillRect(299, 59, 2, 60);
+					g.drawString((String) action.getNext().keySet().toArray()[1], 192, 56);
+				}
 				textRect = new TextRect(action.getText(), 90, 50, g.getFontMetrics(), 13, 4);
 				textRect.render(g, 55, 35);
 				break;
