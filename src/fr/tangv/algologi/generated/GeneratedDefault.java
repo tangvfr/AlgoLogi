@@ -36,7 +36,7 @@ public class GeneratedDefault implements AlgoGenrated {
 					Image img = rednerAction.render(ac);
 					listImage.add(img);
 					height += img.getHeight(null);
-					width =  img.getWidth(null)>width ? img.getWidth(null) : width;
+					width = img.getWidth(null)>width ? img.getWidth(null) : width;
 					//point faire les calc coordoner
 					if (ac.getType() == ActionType.point) {
 						if (!mapPoint.containsKey(ac.getText()))
